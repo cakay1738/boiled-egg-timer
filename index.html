@@ -37,11 +37,9 @@ button {
 <!-- START SCREEN -->
 <div id="startScreen" class="screen">
     <h1>🥚 Egg Timer</h1>
-    <p>₊✩‧₊˚౨ৎ˚₊✩‧₊</p>
 
     <div style="text-align:center;">
         <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2g2dGVuaDZsdGhuOTlvZmFpanV0OGV6bmNrdHVzMWtxZWh4bDJ2cyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/sKjiRdGGlmk5q/giphy.gif"
-             alt="GIF"
              width="250">
     </div>
 
@@ -60,20 +58,19 @@ button {
 
 <!-- TIMER SCREEN -->
 <div id="timerScreen" class="screen" style="display:none;">
-    <audio id="bgMusic" src="eggMusic.mp3" loop></audio>
-    <h1 id="eggTypeTitle">Timer</h1>
 
+    <!-- MUSIC (HTML only placement) -->
+    <audio id="bgMusic" src="eggMusic.mp3" loop></audio>
+
+    <h1 id="eggTypeTitle"></h1>
     <h2 id="timer">00:00</h2>
 
-    <!-- GIF ONLY ON TIMER SCREEN -->
     <div style="text-align:center;">
         <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHAwOHV2cGY5czQ1YWVydXJ3NGQ1MzNrM3FkbDdnaHRkYmI2MWlsZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qK0tMcGZm21by/giphy.gif"
-             alt="GIF"
              width="250">
     </div>
 
     <button onclick="goBack()">Back</button>
-
 </div>
 
 <audio id="alarm" src="eggFinished.wav"></audio>
@@ -85,19 +82,19 @@ let timeLeft = 0;
 function startApp() {
     document.getElementById("startScreen").style.display = "none";
     document.getElementById("menuScreen").style.display = "block";
-    document.getElementById("timerScreen").style.display = "none";
 }
 
 function startTimer(eggName, seconds) {
-    // switch screens
+
     document.getElementById("menuScreen").style.display = "none";
     document.getElementById("timerScreen").style.display = "block";
 
-    // set title
     document.getElementById("eggTypeTitle").innerText = eggName;
 
     clearInterval(countdown);
     timeLeft = seconds;
+
+    document.getElementById("bgMusic").play(); // 🎵 START MUSIC
 
     updateDisplay();
 
@@ -107,6 +104,10 @@ function startTimer(eggName, seconds) {
 
         if (timeLeft <= 0) {
             clearInterval(countdown);
+
+            document.getElementById("bgMusic").pause();
+            document.getElementById("bgMusic").currentTime = 0;
+
             document.getElementById("alarm").play();
             alert("Your egg is ready!");
         }
@@ -123,6 +124,10 @@ function updateDisplay() {
 
 function goBack() {
     clearInterval(countdown);
+
+    document.getElementById("bgMusic").pause();
+    document.getElementById("bgMusic").currentTime = 0;
+
     document.getElementById("timerScreen").style.display = "none";
     document.getElementById("menuScreen").style.display = "block";
 }
