@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Egg Timer Startup</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #fff3e6;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.screen {
+    text-align: center;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    background: #ff9966;
+    color: white;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- START SCREEN -->
+<div id="startScreen" class="screen">
+    <h1>🥚 Egg Timer</h1>
+    <p>₊✩‧₊˚౨ৎ˚₊✩‧₊</p>
+
+    <div style="text-align:center;">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2g2dGVuaDZsdGhuOTlvZmFpanV0OGV6bmNrdHVzMWtxZWh4bDJ2cyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/sKjiRdGGlmk5q/giphy.gif"
+             alt="GIF"
+             width="250">
+    </div>
+
+    <button onclick="startApp()">Start</button>
+</div>
+
+<!-- MENU SCREEN -->
+<div id="menuScreen" class="screen" style="display:none;">
+    <h1>Choose Egg Type</h1>
+
+    <button onclick="startTimer('Soft Egg', 180)">Soft</button>
+    <button onclick="startTimer('Medium Egg', 300)">Medium</button>
+    <button onclick="startTimer('Hard Egg', 420)">Hard</button>
+    <button onclick="startTimer('Extra Hard Egg', 600)">Extra Hard</button>
+</div>
+
+<!-- TIMER SCREEN -->
+<div id="timerScreen" class="screen" style="display:none;">
+
+    <h1 id="eggTypeTitle">Timer</h1>
+
+    <h2 id="timer">00:00</h2>
+
+    <!-- GIF ONLY ON TIMER SCREEN -->
+    <div style="text-align:center;">
+        <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHAwOHV2cGY5czQ1YWVydXJ3NGQ1MzNrM3FkbDdnaHRkYmI2MWlsZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qK0tMcGZm21by/giphy.gif"
+             alt="GIF"
+             width="250">
+    </div>
+
+    <button onclick="goBack()">Back</button>
+
+</div>
+
+<audio id="alarm" src="eggFinished.wav"></audio>
+
+<script>
+let countdown;
+let timeLeft = 0;
+
+function startApp() {
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("menuScreen").style.display = "block";
+    document.getElementById("timerScreen").style.display = "none";
+}
+
+function startTimer(eggName, seconds) {
+    // switch screens
+    document.getElementById("menuScreen").style.display = "none";
+    document.getElementById("timerScreen").style.display = "block";
+  
+
+    // set title
+    document.getElementById("eggTypeTitle").innerText = eggName;
+
+    clearInterval(countdown);
+    timeLeft = seconds;
+
+    updateDisplay();
+
+    countdown = setInterval(() => {
+        timeLeft--;
+        updateDisplay();
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            document.getElementById("alarm").play();
+            alert("Your egg is ready!");
+        }
+    }, 1000);
+}
+
+function updateDisplay() {
+    let mins = Math.floor(timeLeft / 60);
+    let secs = timeLeft % 60;
+
+    document.getElementById("timer").innerText =
+        String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+}
+
+function goBack() {
+    clearInterval(countdown);
+    document.getElementById("timerScreen").style.display = "none";
+    document.getElementById("menuScreen").style.display = "block";
+}
+</script>
+
+</body>
+</html>
