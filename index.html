@@ -60,7 +60,7 @@ button {
 
 <!-- TIMER SCREEN -->
 <div id="timerScreen" class="screen" style="display:none;">
-
+    <audio id="bgMusic" src="eggMusic.mp3" loop></audio>
     <h1 id="eggTypeTitle">Timer</h1>
 
     <h2 id="timer">00:00</h2>
@@ -92,7 +92,6 @@ function startTimer(eggName, seconds) {
     // switch screens
     document.getElementById("menuScreen").style.display = "none";
     document.getElementById("timerScreen").style.display = "block";
-  
 
     // set title
     document.getElementById("eggTypeTitle").innerText = eggName;
